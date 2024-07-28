@@ -1,6 +1,6 @@
 grade:
   image: python:3.10-bullseye
   script:
-    - apt update
-    - apt -y install python3-numpy python3-scipy python3-h5py python3-matplotlib
+    - python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+    - python3 -m pip install --no-cache-dir numpy h5py scipy matplotlib
     - make score | tee -a /score/$CI_PROJECT_NAME
