@@ -1,5 +1,8 @@
 BASE_URL:=http://hep.tsinghua.edu.cn/~berrysoft/bdeph2024/
 
+geo.h5:
+	wget $(BASE_URL)geo.h5
+
 concat.h5:
 	wget $(BASE_URL)concat.h5
 
