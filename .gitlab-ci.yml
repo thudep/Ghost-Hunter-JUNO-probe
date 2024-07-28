@@ -1,6 +1,5 @@
 grade:
-  image: python:3.10-bullseye
+  tags: 
+    - junoprobe
   script:
-    - python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-    - python3 -m pip install --no-cache-dir numpy h5py scipy matplotlib
-    - make score | tee -a /score/$CI_PROJECT_NAME
+    - make score | tee -a /mnt/stage/score/$CI_PROJECT_NAME
