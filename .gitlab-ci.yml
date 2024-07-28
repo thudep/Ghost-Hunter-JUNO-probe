@@ -1,0 +1,6 @@
+grade:
+  tags: 
+    - junoprobe
+  script:
+    - export JUNOPROBE_SCORE=/mnt/stage/score/$CI_PROJECT_NAME
+    - make score
