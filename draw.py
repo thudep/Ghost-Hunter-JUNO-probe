@@ -85,16 +85,16 @@ def draw_time_hist(probe: ProbeBase, c: ConcatInfo, r, theta, fig, ax):
     The real histogram is a histogram of time of all nearby vertices-induced PEs,
     divided by :math:`n`.
     """
-    ts = np.linspace(0, 1, num=10001)
-    n = len(ts)
-    ss = probe.get_lc(np.repeat(r, n), np.repeat(theta, n), ts) / len(ts)
-    ax.plot(ts, ss, label="R(t)")
     sts = c.pe_ts[
         c.pe_rs**2 + r**2 - 2 * c.pe_rs * r * np.cos(c.pe_thetas - theta)
         <= neighborhood_r**2
     ]
+    ts = np.linspace(np.min(sts), np.max(sts), num=10001)
+    n = len(ts)
+    ss = probe.get_lc(np.repeat(r, n), np.repeat(theta, n), ts) / len(ts)
+    ax.plot(ts, ss, label="R(t)")
     if len(sts) != 0:
-        time_range = (0, 1)
+        time_range = (np.min(sts), np.max(sts))
         bins = 100
         ax.hist(
             sts,

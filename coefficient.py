@@ -16,10 +16,6 @@ class ConcatInfo:
         ----------
         filename : str
             The file path of the concat file.
-        r_max : float
-            An additional and historical information, to renormalize the :math:`r`.
-            It represents the real radius of the detector, and is used to ensure all the
-            :math:`r` we use fall in [0, 1].
         """
         with h5.File(filename, "r", swmr=True) as file:
             concat = file["Concat"][()]
@@ -78,7 +74,7 @@ class ProbeBase(metaclass=ABCMeta):
         thetas : numpy.ndarray
             The same shape as `rs`. Falls in [0, :math:`\\pi`]
         ts : numpy.ndarray
-            The same shape as `rs`. Falls in [-1, 1].
+            The same shape as `rs`.
 
         Returns
         -------
@@ -121,7 +117,7 @@ class ProbeBase(metaclass=ABCMeta):
         pe_thetas : numpy.ndarray
             The corresponding :math:`\\theta` of PEs.
         pe_ts : numpy.ndarray
-            The time of PEs. falls in [0, 1].
+            The time of PEs.
 
         Returns
         -------
