@@ -1,10 +1,11 @@
 BASE_URL:=http://hep.tsinghua.edu.cn/~berrysoft/bdeph2024/
+WGET:=wget --quiet
 
 geo.h5:
-	wget $(BASE_URL)geo.h5
+	$(WGET) $(BASE_URL)geo.h5
 
 concat.h5:
-	wget $(BASE_URL)concat.h5
+	$(WGET) $(BASE_URL)concat.h5
 
 draw.pdf: concat.h5
 	./draw.py draw --concat $^ -o $@
@@ -20,4 +21,4 @@ data: $(seeds:%=data/%.h5)
 
 data/%.h5:
 	@mkdir -p $(@D)
-	wget -P $(@D) $(BASE_URL)$*.h5 
+	$(WGET) -P $(@D) $(BASE_URL)$*.h5 
