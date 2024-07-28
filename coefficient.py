@@ -1,6 +1,7 @@
 import numpy as np
 import h5py as h5
 from abc import ABCMeta, abstractmethod
+import time
 
 
 class ConcatInfo:
@@ -103,6 +104,27 @@ class ProbeBase(metaclass=ABCMeta):
         thetas2, rs2 = np.meshgrid(thetas, rs)
         return self.get_mu(rs2, thetas2)
 
+    def is_consistent(self, v_rs, v_thetas) -> bool:
+        NV = 100
+        np.random.seed(time.time_ns() % 65536)
+        indices = np.random.choice(len(v_rs), size=NV)
+        rs = v_rs[indices]
+        thetas = v_thetas[indices]
+        marginal = self.get_mu(rs, thetas)
+        NT = 10000
+        integral = (
+            np.sum(
+                self.get_lc(
+                    np.tile(rs, (NT, 1)).T,
+                    np.tile(thetas, (NT, 1)).T,
+                    np.tile(np.linspace(0, 1, NT), (NV, 1)),
+                ),
+                axis=1,
+            )
+            / NT
+        )
+        return np.allclose(marginal, integral)
+
     def validate(self, v_rs, v_thetas, pe_rs, pe_thetas, pe_ts):
         """Score a Probe.
 
@@ -124,19 +146,7 @@ class ProbeBase(metaclass=ABCMeta):
         float
             score.
         """
-        NT = 10000
-        assert np.allclose(  # check if `get_mu` and `get_lc` are consistent
-            self.get_mu(v_rs, v_thetas),
-            np.sum(
-                self.get_lc(
-                    np.tile(v_rs, (NT, 1)).T,
-                    np.tile(v_thetas, (NT, 1)).T,
-                    np.tile(np.linspace(0, 1, NT), (len(v_rs), 1)),
-                ),
-                axis=1,
-            )
-            / NT,
-        )
+        assert self.is_consistent(v_rs, v_thetas)
 
         nonhit = np.sum(self.get_mu(v_rs, v_thetas))
 
