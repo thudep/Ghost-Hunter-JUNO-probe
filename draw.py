@@ -256,10 +256,12 @@ if __name__ == "__main__":
         concat = ConcatInfo(args.concat)
         probe = get_probe()
         s = Validate(probe, concat)
-        t = time.time()
-        print(f"{s},{t}")
         if "JUNOPROBE_SCORE" in os.environ:
+            t = time.time()
+            print(f"{s},{t}")
             with open(os.environ["JUNOPROBE_SCORE"], mode="a") as score:
                 score.write(f"{s},{t}\n")
+        else:
+            print(s)
     else:
         raise argparse.ArgumentError(args.command, "Invalid command")
