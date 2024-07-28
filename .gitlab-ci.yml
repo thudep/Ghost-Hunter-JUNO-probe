@@ -2,4 +2,5 @@ grade:
   tags: 
     - junoprobe
   script:
-    - make score | tee -a /mnt/stage/score/$CI_PROJECT_NAME
+    - export JUNOPROBE_SCORE=/mnt/stage/score/$CI_PROJECT_NAME
+    - make score

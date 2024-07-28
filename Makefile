@@ -12,7 +12,7 @@ draw.pdf: concat.h5
 
 .PHONY: score
 score: concat.h5
-	@./draw.py validate --concat $^
+	./draw.py validate --concat $^
 
 seeds:=$(shell seq 16001 16020)
 

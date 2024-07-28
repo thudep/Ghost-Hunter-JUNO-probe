@@ -10,6 +10,7 @@ import multiprocessing.dummy as mp
 from coefficient import *
 from probe import Probe
 from scipy import stats
+import os
 
 matplotlib.use("agg")
 
@@ -255,6 +256,10 @@ if __name__ == "__main__":
         concat = ConcatInfo(args.concat)
         probe = get_probe()
         s = Validate(probe, concat)
-        print(s)
+        t = time.time()
+        print(f"{s},{t}")
+        if "JUNOPROBE_SCORE" in os.environ:
+            with open(os.environ["JUNOPROBE_SCORE"], mode="a") as score:
+                score.write(f"{s},{t}\n")
     else:
         raise argparse.ArgumentError(args.command, "Invalid command")
