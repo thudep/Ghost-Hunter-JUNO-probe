@@ -73,3 +73,4 @@ $\log \mathcal{L}=\sum_{i=1}^N(-\int_0^TR(r_i,\theta_i,t)\mathrm{d}t + \sum_{j=1
 
 评分时，会将你的probe函数$R(r,\theta,t)$输入到$\log \mathcal{L}$中，得到的值越大越好。
 
+各位的每次触发 CI 的评分，以及分数排名（以最后一次提交为准），见[网页](http://hep.tsinghua.edu.cn/~berrysoft/bdeph2024/)。
