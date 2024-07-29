@@ -55,3 +55,19 @@ make draw.pdf
 make score
 ```
 这实际上是个 log likelihood，因此可能有负值。分数越大越好。
+
+## 附：评分说明
+给定顶点和PMT的相对坐标$(r,\theta)$，我们可以得到一个PE时间序列$\vec{z}=(t_1,t_2,...t_k)$，这里$k$是序列长度。这也是一个非齐次泊松过程，其似然函数为：
+
+$P(\vec{z}|r,\theta)=e^{-\int_0^TR(r,\theta,t)\mathrm{d}t}\prod_{j=1}^kR(r,\theta,t_j)$
+
+如果我们有$N$次采样，那么似然函数就是：
+
+$\mathcal{L}=\prod_{i=1}^NP(\vec{z_i}|r_i,\theta_i)=\prod_{i=1}^Ne^{-\int_0^TR(r_i,\theta_i,t)\mathrm{d}t}\prod_{j=1}^{k_i}R(r_i,\theta_i,t_{ij})$  
+
+取对数得到：
+
+$\log \mathcal{L}=\sum_{i=1}^N(-\int_0^TR(r_i,\theta_i,t)\mathrm{d}t + \sum_{j=1}^{k_i}\log R(r_i,\theta_i,t_{ij}))$
+
+评分时，会将你的probe函数$R(r,\theta,t)$输入到$\log \mathcal{L}$中，得到的值越大越好。
+
