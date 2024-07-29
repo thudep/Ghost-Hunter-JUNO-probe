@@ -2,9 +2,9 @@
 
 在[一阶段大作业](https://git.tsinghua.edu.cn/physics-data/projects/tpl_junosap)中，我们完成了JUNO探测器的模拟和分析，对JUNO的物理过程有了初步了解，并且通过模拟结果绘制了probe函数的图像。如果你忘了什么是probe函数，请及时回顾，务必明确$r$和$\theta$的定义。
 
-实际上我们第一阶段得到的probe函数只是不含时间的probe（时间维度被积分了），真正的probe函数是需要考虑时间的，也就是说，probe函数应该是$R(r,\theta,t)$，$t$为PE时间。
+实际上我们第一阶段得到的probe函数只是不含时间的probe函数 $\lambda(r,\theta)$（时间维度被积分了），真正的probe函数是需要考虑时间的，我们通常将含时的probe函数记为$R(r,\theta,t)$，$t$为PE时间。这两个函数之间的关系是：$\lambda(r,\theta)$ = $\int_0^TR(r,\theta,t)\mathrm{d}t$，这里$T$是一个足够大的时间窗口，我们取 1000ns。
 
-第二阶段的任务是这样的，我们已经有了足够好的模拟数据，运行 `make data` 即可下载到 data 文件夹中（可以考虑多进程下载，共20个）。你需要用这些训练集，得到一个连续可微的含时的probe函数。具体地说，在给定任意顶点坐标、PMT编号以及PE时间的条件下，你需要给出这个PE出现的likelihood值。
+第二阶段的任务是这样的，我们已经有了足够好的模拟数据，运行 `make data` 即可下载到 data 文件夹中。你需要用这些训练集，得到一个含时的probe函数$R(r,\theta,t)$。
 
 每个训练集包含10000个顶点，其格式为：
 
@@ -39,12 +39,12 @@
 也可以通过运行 `make geo.h5` 直接下载。
 
 ## 任务说明
-本大作业的任务是修改 `probe.py`，造出一个 probe，尽量使分数更高。可以添加额外的文件，但是请不要更改 `coefficient.py` 与 `draw.py` 来作弊，否则判零分。
+本大作业的任务是修改 `probe.py`，造出一个 probe 函数，尽量使分数更高。可以添加额外的文件，但是请不要更改 `coefficient.py` 与 `draw.py` 来作弊，否则判零分。
 
 `probe.py` 中的 `class Probe` 继承了 `coefficient.py` 中的 `class ProbeBase`，因此除了两个抽象函数，其它函数也可以重写。因此你的确可以通过直接重写 `validate` 函数给自己一个高分，这样的情况直接判零分。
 
 ## 评分
-评分时需要下载专用的数据文件 `make concat.h5`。
+你可以在本地下载专用的测试文件 `make concat.h5`来自行评分。
 
 画图与评分均使用 `draw.py`。如果需要画图：
 ```
@@ -55,3 +55,21 @@ make draw.pdf
 make score
 ```
 这实际上是个 log likelihood，因此可能有负值。分数越大越好。
+
+另外，**为了防止大家对着测试集过拟合，本地评测分数及CI排行仅供参考，最终的黑盒排名将由隐藏测例来决定！**
+
+## 附：评分说明
+给定顶点和PMT的相对坐标$(r,\theta)$，我们可以得到一个PE时间序列$\vec{z}=(t_1,t_2,...t_k)$，这里$k$是序列长度。这也是一个非齐次泊松过程，其似然函数为：
+
+$P(\vec{z}|r,\theta)=e^{-\int_0^TR(r,\theta,t)\mathrm{d}t}\prod_{j=1}^kR(r,\theta,t_j)$
+
+如果我们有$N$次采样，那么似然函数就是：
+
+$\mathcal{L}=\prod_{i=1}^NP(\vec{z_i}|r_i,\theta_i)=\prod_{i=1}^Ne^{-\int_0^TR(r_i,\theta_i,t)\mathrm{d}t}\prod_{j=1}^{k_i}R(r_i,\theta_i,t_{ij})$  
+
+取对数得到：
+
+$\log \mathcal{L}=\sum_{i=1}^N(-\int_0^TR(r_i,\theta_i,t)\mathrm{d}t + \sum_{j=1}^{k_i}\log R(r_i,\theta_i,t_{ij}))$
+
+评分时，会将你的probe函数$R(r,\theta,t)$输入到$\log \mathcal{L}$中，得到的值越大越好。
+
