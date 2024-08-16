@@ -119,7 +119,7 @@ class ProbeBase(metaclass=ABCMeta):
                 self.get_lc(
                     np.tile(rs, (NT, 1)).T,
                     np.tile(thetas, (NT, 1)).T,
-                    np.tile(np.linspace(0, TMAX, NT), (NV, 1)),
+                    np.tile(np.linspace(0, TMAX, NT + 1), (NV, 1)),
                 ),
                 axis=1,
             )
