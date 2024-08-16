@@ -114,12 +114,14 @@ class ProbeBase(metaclass=ABCMeta):
         thetas = v_thetas[indices]
         marginal = self.get_mu(rs, thetas)
         NT = 10000
+        ts = np.linspace(0, TMAX, NT + 1)
+        ts = (ts[1:] + ts[:-1]) / 2
         integral = (
             np.sum(
                 self.get_lc(
                     np.tile(rs, (NT, 1)).T,
                     np.tile(thetas, (NT, 1)).T,
-                    np.tile(np.linspace(0, TMAX, NT + 1), (NV, 1)),
+                    np.tile(ts, (NV, 1)),
                 ),
                 axis=1,
             )
