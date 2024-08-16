@@ -2,5 +2,5 @@ grade:
   tags: 
     - junoprobe
   script:
-    - export JUNOPROBE_SCORE=/mnt/stage/score/$CI_PROJECT_NAME
+    - if [ "$CI_COMMIT_REF_NAME" == "$CI_DEFAULT_BRANCH" ]; then export JUNOPROBE_SCORE=/mnt/stage/score/$CI_PROJECT_NAME; fi
     - make score

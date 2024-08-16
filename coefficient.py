@@ -3,6 +3,8 @@ import h5py as h5
 from abc import ABCMeta, abstractmethod
 import time
 
+TMAX = 1000
+
 
 class ConcatInfo:
     """The loader of the concat file."""
@@ -117,10 +119,11 @@ class ProbeBase(metaclass=ABCMeta):
                 self.get_lc(
                     np.tile(rs, (NT, 1)).T,
                     np.tile(thetas, (NT, 1)).T,
-                    np.tile(np.linspace(0, 1000, NT), (NV, 1)),
+                    np.tile(np.linspace(0, TMAX, NT), (NV, 1)),
                 ),
                 axis=1,
             )
+            * TMAX
             / NT
         )
         return np.allclose(marginal, integral)
