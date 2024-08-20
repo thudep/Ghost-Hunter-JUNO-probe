@@ -90,18 +90,23 @@ def draw_time_hist(probe: ProbeBase, c: ConcatInfo, r, theta, fig, ax):
         c.pe_rs**2 + r**2 - 2 * c.pe_rs * r * np.cos(c.pe_thetas - theta)
         <= neighborhood_r**2
     ]
+    svf = (
+        c.v_rs**2 + r**2 - 2 * c.v_rs * r * np.cos(c.v_thetas - theta)
+        <= neighborhood_r**2
+    )
     ts = np.linspace(0, 1000, num=10001)
-    n = len(ts)
-    ss = probe.get_lc(np.repeat(r, n), np.repeat(theta, n), ts) / len(ts)
+    n_ts = len(ts)
+    ss = probe.get_lc(np.repeat(r, n_ts), np.repeat(theta, n_ts), ts) / n_ts
     ax.plot(ts, ss, label="R(t)")
-    if len(sts) != 0:
+    n_v = np.count_nonzero(svf)
+    if n_v != 0:
         time_range = (0, 1000)
         bins = 100
         ax.hist(
             sts,
             range=time_range,
             bins=bins,
-            weights=np.repeat(1.0 / n, len(sts)),
+            weights=np.repeat(1.0 / n_v, len(sts)),
             label="histogram",
         )
 
