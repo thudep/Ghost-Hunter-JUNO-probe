@@ -1,11 +1,11 @@
-BASE_URL:=https://ghfile.thudep.com:4433/data/
+BASE_URL:=https://ghfile.thudep.com:4433
 WGET:=wget --quiet
 
 geo.h5:
-	$(WGET) $(BASE_URL)geo.h5
+	$(WGET) $(BASE_URL)/geo/geo.h5
 
 concat.h5:
-	$(WGET) $(BASE_URL)concat.h5
+	$(WGET) $(BASE_URL)/test/concat.h5
 
 draw.pdf: concat.h5
 	./draw.py draw --concat $^ -o $@
@@ -21,4 +21,4 @@ data: $(seeds:%=data/%.h5)
 
 data/%.h5:
 	@mkdir -p $(@D)
-	$(WGET) -P $(@D) $(BASE_URL)$*.h5 
+	$(WGET) -P $(@D) $(BASE_URL)/data/$*.h5
