@@ -1,4 +1,4 @@
-BASE_URL:=http://hep.tsinghua.edu.cn/~berrysoft/bdeph2024/
+BASE_URL:=https://ghfile.thudep.com:4433/data/
 WGET:=wget --quiet
 
 geo.h5:
