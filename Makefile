@@ -8,14 +8,14 @@ concat.h5:
 	$(WGET) $(BASE_URL)/test/concat.h5
 
 draw.pdf: concat.h5 histogram.h5
-	./draw.py draw --concat $< -o $@
+	python3 draw.py draw --concat $< -o $@
 
 .PHONY: score
 score: concat.h5 histogram.h5
-	./draw.py validate --concat $<
+	python3 draw.py validate --concat $<
 
 histogram.h5: geo.h5 data
-	./histogram.py -g $< --data $(word 2,$^) -o $@ -b 10 -t 10
+	python3 histogram.py -g $< --data $(word 2,$^) -o $@ -b 10 -t 10
 
 seeds:=$(shell seq 16001 16001)
 

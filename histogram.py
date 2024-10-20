@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from multiprocessing import Pool
 import argparse
 import numpy as np
