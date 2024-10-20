@@ -96,7 +96,7 @@ def draw_time_hist(probe: ProbeBase, c: ConcatInfo, r, theta, fig, ax):
     )
     ts = np.linspace(0, 1000, num=10001)
     n_ts = len(ts)
-    ss = probe.get_lc(np.repeat(r, n_ts), np.repeat(theta, n_ts), ts)
+    ss = probe.get_lc(np.repeat(r, n_ts), np.repeat(theta, n_ts), ts) / n_ts
     ax.plot(ts, ss, label="R(t)")
     n_v = np.count_nonzero(svf)
     if n_v != 0:
