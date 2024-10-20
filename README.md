@@ -4,9 +4,12 @@
 
 赛题是这样的, 我们已经有了足够好的模拟数据作为训练集, 你需要用这些训练集, 得到一个 probe 函数.
 
-每个训练集包含10000个顶点, 其格式为:
+每个 `h5` 文件包含 **`ParticleTruth`** 以及 **`PETruth`** 两个 **dataset**, 其格式为:
 
-h5文件中的`ParticleTruth` 表
+**`ParticleTruth`**
+
+包含 10000 个顶点.
+
 | 名称      | 说明             |
 | --------- | ---------------- |
 | `EventID` | 事件编号         |
@@ -18,17 +21,19 @@ h5文件中的`ParticleTruth` 表
 
 注: 顶点可见能量是指顶点沉积并且用来发光的能量.
 
-parquet文件中的
+**`PETruth`**
+
 | 名称        | 说明                |
 | ----------- | ------------------- |
-| `evtID`     | 事件编号            |
-| `pmtID`     | PMT 编号            |
-| `hitTime`   | PE 击中时间/ns      |
-| `lightTime` | 光子被发出的时间/ns |
+| `EventID`   | 事件编号            |
+| `ChannelID` | PMT 编号            |
+| `HitTime`   | PE 击中时间/ns      |
+| `LightTime` | 光子被发出的时间/ns |
 
 几何文件`geo.h5`, 其格式为:
 
-`Geometry` 表
+**`Geometry`**
+
 | 名称        | 说明                     |
 | ----------- | ------------------------ |
 | `ChannelID` | PMT 编号                 |
