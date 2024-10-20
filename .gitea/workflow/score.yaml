@@ -1,0 +1,12 @@
+name: score
+run-name: score the code
+on: [push]
+
+jobs:
+  score:
+    runs-on: ghci
+    steps:
+    - name: Checkout
+      uses: https://gitea.com/actions/checkout@v4
+    - name: Run score
+      run: make score
