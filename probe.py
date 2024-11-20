@@ -42,6 +42,15 @@ class Probe(ProbeBase):
 
     def get_mu(self, rs, thetas):
         self.load_data()
+        if len(rs) <= 10000:
+            nv = len(rs)
+            nt = 10000
+            ts = np.linspace(0, T_MAX, nt + 1)
+            ts = (ts[1:] + ts[:-1]) / 2
+
+            return (np.sum(self.get_lc(np.tile(rs, (nt, 1)).T,
+                                        np.tile(thetas, (nt, 1)).T,
+                                        np.tile(ts, (nv, 1)),), axis=1,) * T_MAX / nt)
 
         r_grid = np.clip(np.searchsorted(rs, self.r_bins)-1, 0, self.bins-1)
         theta_grid = np.clip(np.searchsorted(thetas, self.theta_bins)-1,
