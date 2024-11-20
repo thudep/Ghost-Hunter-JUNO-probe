@@ -154,12 +154,8 @@ class ProbeBase(metaclass=ABCMeta):
         assert self.is_consistent(v_rs, v_thetas)
 
         nonhit = np.sum(self.get_mu(v_rs, v_thetas))
-        if self.get_mu(v_rs, v_thetas).shape != v_rs.shape:
-            raise ValueError("Arrays v_rs and mu have different shapes.")
 
         hit = self.get_lc(pe_rs, pe_thetas, pe_ts)
-        if hit.shape != pe_rs.shape:
-            raise ValueError("Arrays pe_rs and lc have different shapes.")
 
         hit = np.sum(np.log(hit))
         return hit - nonhit
