@@ -8,10 +8,5 @@ jobs:
     steps:
     - name: Checkout
       uses: https://gitea.com/actions/checkout@v4
-    - name: Score
-      run: |
-        make score > log
-        echo "Your score is $(cat log | grep -E "^-[0-9]+\.[0-9]+")"
-        curl --location 'https://ghosthunter.thudep.com/leaderboard' \
-        --header 'Content-Type: application/json' \
-        --data "{\"team\": \"$(echo \${{ gitea.repository }} | sed "s/\/.*//g")\",\"score\": $(cat log | grep -E "^-[0-9]+\.[0-9]+"),\"time\": \"$(date --rfc-3339=seconds)\",\"secret\":\"$(cat /data/gh-score-secret)\"}" && echo "Score uploaded successfully!"
+    - name: Run score
+      run: make score
